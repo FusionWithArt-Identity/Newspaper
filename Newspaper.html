@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE HINDU - Newspaper Layout Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kLmbG0CzdlIQHNi1HAQCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Using custom fonts and textures to better match the newspaper style */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #EAE6D9; /* A more authentic, vintage paper background for the whole page */
+        }
+        /* Applying classic serif font and a coarse texture for the newspaper content */
+        .newspaper {
+            font-family: 'Libre Baskerville', serif;
+            background-color: #fdfaf1; /* Creme/yellowish tint for paper texture */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+            /* --- UPDATED: Coarse Grain Texture --- */
+            /* The background-image is a repeating noise pattern to create a grainy, textured paper effect. */
+            /* The blend mode multiplies this texture with the background color for a more natural look. */
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHElEQVQYV2NkgID/ADVCFAGLM4QCgDi42oYXPwAFiQHFneq5UQAAAABJRU5ErkJggg==');
+            background-blend-mode: multiply;
+        }
+        /* Custom style for the drop cap on the first paragraph */
+        .drop-cap-p {
+            position: relative;
+            padding-left: 2.5rem; /* Space for the drop cap */
+        }
+        .drop-cap::first-letter {
+            font-size: 4.5rem; /* Equivalent to text-7xl */
+            font-weight: 700;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            color: #111827; /* A slightly softer black */
+        }
+        .headline {
+             font-family: 'Libre Baskerville', serif;
+        }
+        
+        .article-body {
+            hyphens: auto;
+        }
+
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+
+    <div id="newspaper-container" class="newspaper w-full max-w-4xl mx-auto p-6 sm:p-8 md:p-10">
+        <header class="text-center border-b-2 border-gray-800 pb-4">
+            <img src="Logo.png" alt="THE HINDU Newspaper Header" class="mx-auto w-full mb-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-gray-600 text-xs md:text-sm mt-3 px-1 sm:px-4 font-sans font-medium uppercase tracking-wider">
+                <span class="mb-2 sm:mb-0">Bolpur, West Bengal, India</span>
+                <span>Saturday, September 13, 2025 - 10:29 PM IST</span>
+            </div>
+        </header>
+
+        <main class="mt-8">
+            <section class="text-center mb-8">
+                <h2 class="headline text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                    MAJOR BREAKTHROUGH IN RENEWABLE ENERGY RESEARCH
+                </h2>
+                <h3 class="text-lg md:text-xl text-gray-600 italic mt-3">
+                    Scientists develop highly efficient solar cells that could revolutionize the industry
+                </h3>
+            </section>
+
+            <article class="article-body columns-1 md:columns-2 gap-8 text-justify text-gray-800 leading-relaxed text-base">
+                <p class="mb-4 drop-cap">
+                    In a groundbreaking development, researchers at the National Institute of Solar Energy have created a new type of photovoltaic cell with an unprecedented efficiency of 45%. This remarkable achievement promises to make solar power more accessible and affordable for millions around the world.
+                </p>
+                <p class="mb-4">
+                    The new technology utilizes a tandem structure that combines perovskite and silicon layers, capturing a broader spectrum of sunlight than traditional solar panels. This innovation addresses one of the key limitations of current solar technology - its relatively low efficiency in converting sunlight to electricity.
+                </p>
+                <p class="mb-4">
+                    Dr. Priya Sharma, the lead researcher on the project, stated: "This breakthrough could significantly accelerate the global transition to renewable energy. Our cells not only perform better but are also cheaper to manufacture than current high-efficiency alternatives."
+                </p>
+                <p class="mb-4">
+                    The research team has already filed patents for the new technology and is working with industrial partners to begin mass production within the next two years. Government officials have expressed strong support for the initiative, noting its potential to help meet climate goals while creating new jobs in the green energy sector.
+                </p>
+                <p>
+                    Environmental groups have welcomed the news, with many hoping this development will help speed up the phase-out of fossil fuels. If successfully commercialized, these high-efficiency solar cells could make a substantial contribution to reducing global carbon emissions.
+                </p>
+            </article>
+        </main>
+    </div>
+
+    <div class="mt-8 text-center">
+        <button id="save-button" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+            Save as PNG Image
+        </button>
+        <p class="text-gray-500 mt-2 text-sm">Click the button to download the newspaper layout.</p>
+    </div>
+
+    <script>
+        // Handle the save button click event
+        const saveButton = document.getElementById('save-button');
+        const newspaperContainer = document.getElementById('newspaper-container');
+
+        saveButton.addEventListener('click', () => {
+            saveButton.textContent = 'Generating...';
+            saveButton.disabled = true;
+            
+            html2canvas(newspaperContainer, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: '#fdfaf1', // Ensure this matches the newspaper background to avoid white edges
+                scrollX: 0,
+                scrollY: 0,
+                windowWidth: newspaperContainer.scrollWidth,
+                windowHeight: newspaperContainer.scrollHeight
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'the_hindu_newspaper.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                saveButton.textContent = 'Save as PNG Image';
+                saveButton.disabled = false;
+            }).catch(error => {
+                console.error('Oops, something went wrong!', error);
+                saveButton.textContent = 'Error! Try Again';
+                saveButton.disabled = false;
+            });
+        });
+    </script>
+
+</body>
+</html>
